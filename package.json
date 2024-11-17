@@ -6,7 +6,15 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
-    "elysia": "latest"
+    "@elysiajs/cors": "^1.1.1",
+    "@elysiajs/cron": "^1.1.1",
+    "@elysiajs/swagger": "^1.1.5",
+    "elysia": "latest",
+    "ethers": "^6.13.4",
+    "graphql-request": "^7.1.2",
+    "keccak256": "^1.0.6",
+    "merkletreejs": "^0.4.0",
+    "redis": "^4.7.0"
   },
   "devDependencies": {
     "bun-types": "latest"
