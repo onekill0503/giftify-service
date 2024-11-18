@@ -1,712 +1,620 @@
 export const DONATE_CONTRACT_ABI = [
   {
-    type: "constructor",
-    inputs: [
+    "type": "constructor",
+    "inputs": [
       {
-        name: "_platformAddress",
-        type: "address",
-        internalType: "address",
+        "name": "_platformAddress",
+        "type": "address",
+        "internalType": "address"
       },
       {
-        name: "_sUSDeToken",
-        type: "address",
-        internalType: "address",
+        "name": "_sUSDeToken",
+        "type": "address",
+        "internalType": "address"
       },
+      {
+        "name": "_uSDEeToken",
+        "type": "address",
+        "internalType": "address"
+      }
     ],
-    stateMutability: "nonpayable",
+    "stateMutability": "nonpayable"
   },
   {
-    type: "function",
-    name: "addAllowedDonationToken",
-    inputs: [
+    "type": "function",
+    "name": "allowedDonationToken",
+    "inputs": [
       {
-        name: "_token",
-        type: "address",
-        internalType: "address",
-      },
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
     ],
-    outputs: [],
-    stateMutability: "nonpayable",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "allowedDonationToken",
-    inputs: [
+    "type": "function",
+    "name": "allowedDonationTokens",
+    "inputs": [
       {
-        name: "",
-        type: "address",
-        internalType: "address",
-      },
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
     ],
-    outputs: [
+    "outputs": [
       {
-        name: "",
-        type: "bool",
-        internalType: "bool",
-      },
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
     ],
-    stateMutability: "view",
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "allowedDonationTokens",
-    inputs: [
-      {
-        name: "",
-        type: "uint256",
-        internalType: "uint256",
-      },
-    ],
-    outputs: [
-      {
-        name: "",
-        type: "address",
-        internalType: "address",
-      },
-    ],
-    stateMutability: "view",
+    "type": "function",
+    "name": "batchWithdraw",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
-    type: "function",
-    name: "batchWithdraw",
-    inputs: [],
-    outputs: [],
-    stateMutability: "nonpayable",
+    "type": "function",
+    "name": "batchWithdrawAmount",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "batchWithdrawAmount",
-    inputs: [],
-    outputs: [
+    "type": "function",
+    "name": "batchWithdrawMin",
+    "inputs": [],
+    "outputs": [
       {
-        name: "",
-        type: "uint256",
-        internalType: "uint256",
-      },
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
     ],
-    stateMutability: "view",
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "batchWithdrawMin",
-    inputs: [],
-    outputs: [
+    "type": "function",
+    "name": "changeOwner",
+    "inputs": [
       {
-        name: "",
-        type: "uint256",
-        internalType: "uint256",
-      },
+        "name": "_newOwner",
+        "type": "address",
+        "internalType": "address"
+      }
     ],
-    stateMutability: "view",
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
-    type: "function",
-    name: "changeOwner",
-    inputs: [
+    "type": "function",
+    "name": "claim",
+    "inputs": [
       {
-        name: "_newOwner",
-        type: "address",
-        internalType: "address",
+        "name": "_amount",
+        "type": "uint256",
+        "internalType": "uint256"
       },
+      {
+        "name": "_proof",
+        "type": "bytes32[]",
+        "internalType": "bytes32[]"
+      }
     ],
-    outputs: [],
-    stateMutability: "nonpayable",
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
-    type: "function",
-    name: "claim",
-    inputs: [
+    "type": "function",
+    "name": "creatorPercentage",
+    "inputs": [],
+    "outputs": [
       {
-        name: "_amount",
-        type: "uint256",
-        internalType: "uint256",
-      },
-      {
-        name: "_proof",
-        type: "bytes32[]",
-        internalType: "bytes32[]",
-      },
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
     ],
-    outputs: [],
-    stateMutability: "nonpayable",
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "creatorPercentage",
-    inputs: [],
-    outputs: [
+    "type": "function",
+    "name": "creators",
+    "inputs": [
       {
-        name: "",
-        type: "uint256",
-        internalType: "uint256",
-      },
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
     ],
-    stateMutability: "view",
+    "outputs": [
+      {
+        "name": "totalDonation",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "claimableShares",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "lastClaimed",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "creators",
-    inputs: [
+    "type": "function",
+    "name": "donate",
+    "inputs": [
       {
-        name: "",
-        type: "address",
-        internalType: "address",
+        "name": "_amount",
+        "type": "uint256",
+        "internalType": "uint256"
       },
+      {
+        "name": "_to",
+        "type": "address",
+        "internalType": "address"
+      }
     ],
-    outputs: [
-      {
-        name: "totalDonation",
-        type: "uint256",
-        internalType: "uint256",
-      },
-      {
-        name: "claimableShares",
-        type: "uint256",
-        internalType: "uint256",
-      },
-      {
-        name: "lastClaimed",
-        type: "uint256",
-        internalType: "uint256",
-      },
-    ],
-    stateMutability: "view",
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
-    type: "function",
-    name: "donate",
-    inputs: [
+    "type": "function",
+    "name": "getYield",
+    "inputs": [
       {
-        name: "_amount",
-        type: "uint256",
-        internalType: "uint256",
-      },
-      {
-        name: "_to",
-        type: "address",
-        internalType: "address",
-      },
-      {
-        name: "_token",
-        type: "address",
-        internalType: "address",
-      },
+        "name": "_user",
+        "type": "address",
+        "internalType": "address"
+      }
     ],
-    outputs: [],
-    stateMutability: "nonpayable",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "getYield",
-    inputs: [
+    "type": "function",
+    "name": "gifterPercentage",
+    "inputs": [],
+    "outputs": [
       {
-        name: "_user",
-        type: "address",
-        internalType: "address",
-      },
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
     ],
-    outputs: [
-      {
-        name: "",
-        type: "uint256",
-        internalType: "uint256",
-      },
-    ],
-    stateMutability: "view",
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "gifterPercentage",
-    inputs: [],
-    outputs: [
+    "type": "function",
+    "name": "gifters",
+    "inputs": [
       {
-        name: "",
-        type: "uint256",
-        internalType: "uint256",
-      },
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
     ],
-    stateMutability: "view",
-  },
-  {
-    type: "function",
-    name: "gifters",
-    inputs: [
+    "outputs": [
       {
-        name: "",
-        type: "address",
-        internalType: "address",
+        "name": "donatedAmount",
+        "type": "uint256",
+        "internalType": "uint256"
       },
+      {
+        "name": "totalShares",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "grossDonatedAmount",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "lastClaimed",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
     ],
-    outputs: [
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "initiateWithdraw",
+    "inputs": [
       {
-        name: "donatedAmount",
-        type: "uint256",
-        internalType: "uint256",
-      },
-      {
-        name: "totalShares",
-        type: "uint256",
-        internalType: "uint256",
-      },
-      {
-        name: "grossDonatedAmount",
-        type: "uint256",
-        internalType: "uint256",
-      },
-      {
-        name: "lastClaimed",
-        type: "uint256",
-        internalType: "uint256",
-      },
+        "name": "_shares",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
     ],
-    stateMutability: "view",
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
-    type: "function",
-    name: "initiateWithdraw",
-    inputs: [
+    "type": "function",
+    "name": "lastBatchWithdraw",
+    "inputs": [],
+    "outputs": [
       {
-        name: "_shares",
-        type: "uint256",
-        internalType: "uint256",
-      },
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
     ],
-    outputs: [],
-    stateMutability: "nonpayable",
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "isTokenAllowed",
-    inputs: [
+    "type": "function",
+    "name": "merkleRoot",
+    "inputs": [],
+    "outputs": [
       {
-        name: "_token",
-        type: "address",
-        internalType: "address",
-      },
+        "name": "",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
     ],
-    outputs: [
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "owner",
+    "inputs": [],
+    "outputs": [
       {
-        name: "",
-        type: "bool",
-        internalType: "bool",
-      },
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
     ],
-    stateMutability: "view",
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "lastBatchWithdraw",
-    inputs: [],
-    outputs: [
+    "type": "function",
+    "name": "platformAddress",
+    "inputs": [],
+    "outputs": [
       {
-        name: "",
-        type: "uint256",
-        internalType: "uint256",
-      },
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
     ],
-    stateMutability: "view",
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "merkleRoot",
-    inputs: [],
-    outputs: [
+    "type": "function",
+    "name": "platformFees",
+    "inputs": [],
+    "outputs": [
       {
-        name: "",
-        type: "bytes32",
-        internalType: "bytes32",
-      },
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
     ],
-    stateMutability: "view",
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "owner",
-    inputs: [],
-    outputs: [
+    "type": "function",
+    "name": "renounceOwnership",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "sUSDeToken",
+    "inputs": [],
+    "outputs": [
       {
-        name: "",
-        type: "address",
-        internalType: "address",
-      },
+        "name": "",
+        "type": "address",
+        "internalType": "contract ISUSDE"
+      }
     ],
-    stateMutability: "view",
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "platformAddress",
-    inputs: [],
-    outputs: [
+    "type": "function",
+    "name": "setMerkleRoot",
+    "inputs": [
       {
-        name: "",
-        type: "address",
-        internalType: "address",
-      },
+        "name": "_merkleRoot",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
     ],
-    stateMutability: "view",
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
-    type: "function",
-    name: "platformFees",
-    inputs: [],
-    outputs: [
+    "type": "function",
+    "name": "totalDonations",
+    "inputs": [],
+    "outputs": [
       {
-        name: "",
-        type: "uint256",
-        internalType: "uint256",
-      },
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
     ],
-    stateMutability: "view",
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "removeAllowedDonationToken",
-    inputs: [
+    "type": "function",
+    "name": "totalWithdraw",
+    "inputs": [],
+    "outputs": [
       {
-        name: "_token",
-        type: "address",
-        internalType: "address",
-      },
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
     ],
-    outputs: [],
-    stateMutability: "nonpayable",
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "renounceOwnership",
-    inputs: [],
-    outputs: [],
-    stateMutability: "nonpayable",
-  },
-  {
-    type: "function",
-    name: "sUSDeToken",
-    inputs: [],
-    outputs: [
+    "type": "function",
+    "name": "transferOwnership",
+    "inputs": [
       {
-        name: "",
-        type: "address",
-        internalType: "contract ISUSDE",
-      },
+        "name": "newOwner",
+        "type": "address",
+        "internalType": "address"
+      }
     ],
-    stateMutability: "view",
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
-    type: "function",
-    name: "setMerkleRoot",
-    inputs: [
+    "type": "function",
+    "name": "uSDeToken",
+    "inputs": [],
+    "outputs": [
       {
-        name: "_merkleRoot",
-        type: "bytes32",
-        internalType: "bytes32",
-      },
+        "name": "",
+        "type": "address",
+        "internalType": "contract IERC20"
+      }
     ],
-    outputs: [],
-    stateMutability: "nonpayable",
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "totalDonations",
-    inputs: [],
-    outputs: [
+    "type": "function",
+    "name": "unstakeBatchWithdraw",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "updateToken",
+    "inputs": [
       {
-        name: "",
-        type: "uint256",
-        internalType: "uint256",
+        "name": "_sUSDeToken",
+        "type": "address",
+        "internalType": "address"
       },
+      {
+        "name": "_USDeToken",
+        "type": "address",
+        "internalType": "address"
+      }
     ],
-    stateMutability: "view",
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
-    type: "function",
-    name: "totalWithdraw",
-    inputs: [],
-    outputs: [
+    "type": "function",
+    "name": "withdrawStatus",
+    "inputs": [],
+    "outputs": [
       {
-        name: "",
-        type: "uint256",
-        internalType: "uint256",
-      },
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      }
     ],
-    stateMutability: "view",
+    "stateMutability": "view"
   },
   {
-    type: "function",
-    name: "transferOwnership",
-    inputs: [
+    "type": "event",
+    "name": "ClaimReward",
+    "inputs": [
       {
-        name: "newOwner",
-        type: "address",
-        internalType: "address",
+        "name": "user",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
       },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
     ],
-    outputs: [],
-    stateMutability: "nonpayable",
+    "anonymous": false
   },
   {
-    type: "function",
-    name: "uSDeToken",
-    inputs: [],
-    outputs: [
+    "type": "event",
+    "name": "InitiateWithdraw",
+    "inputs": [
       {
-        name: "",
-        type: "address",
-        internalType: "contract IERC20",
+        "name": "creator",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
       },
+      {
+        "name": "shares",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
     ],
-    stateMutability: "view",
+    "anonymous": false
   },
   {
-    type: "function",
-    name: "unstakeBatchWithdraw",
-    inputs: [],
-    outputs: [],
-    stateMutability: "nonpayable",
-  },
-  {
-    type: "function",
-    name: "updateToken",
-    inputs: [
+    "type": "event",
+    "name": "NewDonation",
+    "inputs": [
       {
-        name: "_sUSDeToken",
-        type: "address",
-        internalType: "address",
+        "name": "gifter",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
       },
       {
-        name: "_USDeToken",
-        type: "address",
-        internalType: "address",
+        "name": "grossAmount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
       },
+      {
+        "name": "netAmount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "creator",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "gifterShares",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "timestamp",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
     ],
-    outputs: [],
-    stateMutability: "nonpayable",
+    "anonymous": false
   },
   {
-    type: "event",
-    name: "ClaimReward",
-    inputs: [
+    "type": "event",
+    "name": "OwnershipTransferred",
+    "inputs": [
       {
-        name: "user",
-        type: "address",
-        indexed: true,
-        internalType: "address",
+        "name": "previousOwner",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
       },
       {
-        name: "amount",
-        type: "uint256",
-        indexed: false,
-        internalType: "uint256",
-      },
-      {
-        name: "timestamp",
-        type: "uint256",
-        indexed: false,
-        internalType: "uint256",
-      },
+        "name": "newOwner",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
     ],
-    anonymous: false,
+    "anonymous": false
   },
   {
-    type: "event",
-    name: "InitiateWithdraw",
-    inputs: [
-      {
-        name: "creator",
-        type: "address",
-        indexed: true,
-        internalType: "address",
-      },
-      {
-        name: "shares",
-        type: "uint256",
-        indexed: false,
-        internalType: "uint256",
-      },
-      {
-        name: "timestamp",
-        type: "uint256",
-        indexed: false,
-        internalType: "uint256",
-      },
-    ],
-    anonymous: false,
+    "type": "error",
+    "name": "DONATE__AMOUNT_ZERO",
+    "inputs": []
   },
   {
-    type: "event",
-    name: "NewDonation",
-    inputs: [
+    "type": "error",
+    "name": "DONATE__BATCH_WITHDRAW_MINIMUM_NOT_REACHED",
+    "inputs": [
       {
-        name: "gifter",
-        type: "address",
-        indexed: true,
-        internalType: "address",
-      },
-      {
-        name: "grossAmount",
-        type: "uint256",
-        indexed: false,
-        internalType: "uint256",
-      },
-      {
-        name: "netAmount",
-        type: "uint256",
-        indexed: false,
-        internalType: "uint256",
-      },
-      {
-        name: "creator",
-        type: "address",
-        indexed: true,
-        internalType: "address",
-      },
-      {
-        name: "gifterShares",
-        type: "uint256",
-        indexed: false,
-        internalType: "uint256",
-      },
-      {
-        name: "timestamp",
-        type: "uint256",
-        indexed: false,
-        internalType: "uint256",
-      },
-    ],
-    anonymous: false,
+        "name": "batchWithdrawAmount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ]
   },
   {
-    type: "event",
-    name: "OwnershipTransferred",
-    inputs: [
+    "type": "error",
+    "name": "DONATE__INSUFFICIENT_BALANCE",
+    "inputs": [
       {
-        name: "previousOwner",
-        type: "address",
-        indexed: true,
-        internalType: "address",
-      },
-      {
-        name: "newOwner",
-        type: "address",
-        indexed: true,
-        internalType: "address",
-      },
-    ],
-    anonymous: false,
+        "name": "wallet",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
   },
   {
-    type: "event",
-    name: "addAllowedDonationTokenEvent",
-    inputs: [
-      {
-        name: "token",
-        type: "address",
-        indexed: true,
-        internalType: "address",
-      },
-      {
-        name: "timestamp",
-        type: "uint256",
-        indexed: false,
-        internalType: "uint256",
-      },
-    ],
-    anonymous: false,
+    "type": "error",
+    "name": "DONATE__INVALID_MERKLE_PROOF",
+    "inputs": []
   },
   {
-    type: "event",
-    name: "removeAllowedDonationTokenEvent",
-    inputs: [
+    "type": "error",
+    "name": "OwnableInvalidOwner",
+    "inputs": [
       {
-        name: "token",
-        type: "address",
-        indexed: true,
-        internalType: "address",
-      },
-      {
-        name: "timestamp",
-        type: "uint256",
-        indexed: false,
-        internalType: "uint256",
-      },
-    ],
-    anonymous: false,
+        "name": "owner",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
   },
   {
-    type: "error",
-    name: "DONATE__AMOUNT_ZERO",
-    inputs: [],
-  },
-  {
-    type: "error",
-    name: "DONATE__BATCH_WITHDRAW_MINIMUM_NOT_REACHED",
-    inputs: [
+    "type": "error",
+    "name": "OwnableUnauthorizedAccount",
+    "inputs": [
       {
-        name: "batchWithdrawAmount",
-        type: "uint256",
-        internalType: "uint256",
-      },
-    ],
-  },
-  {
-    type: "error",
-    name: "DONATE__INSUFFICIENT_BALANCE",
-    inputs: [
-      {
-        name: "wallet",
-        type: "address",
-        internalType: "address",
-      },
-    ],
-  },
-  {
-    type: "error",
-    name: "DONATE__INVALID_MERKLE_PROOF",
-    inputs: [],
-  },
-  {
-    type: "error",
-    name: "DONATE__NOT_ALLOWED_TOKEN",
-    inputs: [
-      {
-        name: "token",
-        type: "address",
-        internalType: "address",
-      },
-    ],
-  },
-  {
-    type: "error",
-    name: "DONATE__WALLET_NOT_ALLOWED",
-    inputs: [
-      {
-        name: "wallet",
-        type: "address",
-        internalType: "address",
-      },
-    ],
-  },
-  {
-    type: "error",
-    name: "OwnableInvalidOwner",
-    inputs: [
-      {
-        name: "owner",
-        type: "address",
-        internalType: "address",
-      },
-    ],
-  },
-  {
-    type: "error",
-    name: "OwnableUnauthorizedAccount",
-    inputs: [
-      {
-        name: "account",
-        type: "address",
-        internalType: "address",
-      },
-    ],
-  },
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  }
 ];
 
 export const SUSDE_CONTRACT_ABI = [

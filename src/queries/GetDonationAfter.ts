@@ -2,7 +2,7 @@ import { gql } from "graphql-request";
 
 const GET_DONATION_AFTER = gql`
   query GetDonationsAfter($timestamp: BigInt!) {
-    newDonations(where: { timestamp_gt: $timestamp }) {
+    newDonations(where: { timestamp_gte: $timestamp }) {
       gifter
       grossAmount
       netAmount

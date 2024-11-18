@@ -9,29 +9,31 @@ export const getSubGraphClient = () => {
   return client;
 };
 
-export const getWithdrawDataAfter = async (timestamp: string) => {
+export const getWithdrawDataAfter = async (timestamp: BigInt) => {
   const client = getSubGraphClient();
+  timestamp = BigInt(0);
   try {
-    const response = await client.request<{ initiateWithdraw: Withdraw[] }>(
+    const response = (await client.request<{ initiateWithdraws: Withdraw[] }>(
       GET_WITHDRAW_AFTER,
-      { timestamp }
-    );
+      { timestamp: timestamp.toString() }
+    )).initiateWithdraws;
     return response;
   } catch (error) {
     console.error("Error fetching donations:", error);
-    return null;
+    return [];
   }
 };
-export const getDonationDataAfter = async (timestamp: string) => {
+export const getDonationDataAfter = async (timestamp: BigInt) => {
   const client = getSubGraphClient();
+  timestamp = BigInt(0);
   try {
-    const response = await client.request<{ newDonations: Donations[] }>(
+    const response = (await client.request<{ newDonations: Donations[] }>(
       GET_DONATION_AFTER,
-      { timestamp }
-    );
+      { timestamp: timestamp.toString() }
+    )).newDonations;
     return response;
   } catch (error) {
     console.error("Error fetching donations:", error);
-    return null;
+    return [];
   }
 };

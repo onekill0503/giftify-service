@@ -6,7 +6,7 @@ export const getOwnerWallet = async (): Promise<Wallet> => {
 };
 
 export const getProvider = async (): Promise<JsonRpcProvider> => {
-  return new JsonRpcProvider(process.env.PROVIDER_URL ?? "");
+  return new JsonRpcProvider(process.env.RPC_PROVIDER ?? "");
 };
 
 export const getDonateContract = async (): Promise<Contract> => {

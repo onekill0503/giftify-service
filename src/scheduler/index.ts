@@ -1,4 +1,4 @@
-import cron from "@elysiajs/cron";
+import { cron, Patterns } from "@elysiajs/cron";
 import batchWithdraw from "../services/donate/batchWithdraw";
 import unstakeWithdraw from "../services/donate/unstakeWithdraw";
 
@@ -7,7 +7,7 @@ import unstakeWithdraw from "../services/donate/unstakeWithdraw";
  */
 export default cron({
   name: `Giftify Withdraw Batch Execution`,
-  pattern: `* 1 * * * *`,
+  pattern: Patterns.everySenconds(10),
   run: async () => {
     await batchWithdraw();
     await unstakeWithdraw();

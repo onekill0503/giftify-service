@@ -1,4 +1,3 @@
-import Cooldown from "../../schema/types/Cooldown";
 import Donations from "../../schema/types/Donations";
 import MerkleData from "../../schema/types/MerkleData";
 import Withdraw from "../../schema/types/Withdraw";
@@ -17,15 +16,22 @@ import { createMerkleTree } from "../../utils/MerkleTree";
 const unstakeWithdraw = async () => {
   const SmartContract = await getSUSDContract();
   const DonateSC = await getDonateContract();
-
-  const cooldownStatus: Cooldown = await SmartContract.cooldown(
-    process.env.DONATE_SMART_CONTRACT_ADDRESS ?? `0x0`
+  const cooldownStatus = await SmartContract.cooldowns(
+    process.env.DONATE_CONTRACT_ADDRESS ?? `0x0`
   );
-  if (cooldownStatus.cooldownEnd > 0) return false;
-  if (cooldownStatus.underlyingAmount === 0) return false;
+  if (cooldownStatus[0] > BigInt(new Date().getTime())) {
+    console.log(`UNSTAKE: Cooldown is not finished yet`);
+    return false;
+  }
+  if (cooldownStatus[1] === BigInt(0)) {
+    console.log(`UNSTAKE: No funds to withdraw`);
+    return false;
+  }
+  console.log(`UNSTAKE: Initiating batch withdraw`);
+  const withdrawAmount = await DonateSC.batchWithdrawAmount();
   const merkleTreeData = await generateMerkleTreeData(
-    String(cooldownStatus.underlyingAmount),
-    await DonateSC.batchWithdrawAmount()
+    String(cooldownStatus[1]),
+    withdrawAmount
   );
   const updatedData = await combineMerkleTreeDataWithRedis(merkleTreeData);
   const rootHash = await generateMerkleTree(updatedData);
@@ -39,10 +45,12 @@ const unstakeWithdraw = async () => {
  */
 const getInitiedWithdrawData = async (): Promise<Withdraw[]> => {
   const SmartContract = await getDonateContract();
-  const WithdrawData: Withdraw[] | undefined = (
-    await getWithdrawDataAfter(SmartContract.lastBatchWithdraw().toString())
-  )?.initiateWithdraw;
-  if (!WithdrawData) return [];
+  const lastBatchWithdraw = await SmartContract.lastBatchWithdraw();
+  console.log(`Last Batch Withdraw: ${lastBatchWithdraw}`);
+  const WithdrawData: Withdraw[] = (
+    await getWithdrawDataAfter(BigInt(lastBatchWithdraw))
+  );
+  if (WithdrawData.length < 1) return [];
   return WithdrawData;
 };
 
@@ -52,10 +60,11 @@ const getInitiedWithdrawData = async (): Promise<Withdraw[]> => {
  */
 const getDonationData = async (): Promise<Donations[]> => {
   const SmartContract = await getDonateContract();
-  const DonationData: Donations[] | undefined = (
-    await getDonationDataAfter(SmartContract.lastBatchWithdraw().toString())
-  )?.newDonations;
-  if (!DonationData) return [];
+  const lastBatchWithdraw = await SmartContract.lastBatchWithdraw();
+  const DonationData: Donations[] = (
+    await getDonationDataAfter(BigInt(lastBatchWithdraw))
+  );
+  if (DonationData.length < 1 ) return [];
   return removeDuplicateDonationsData(DonationData);
 };
 
@@ -126,7 +135,7 @@ const generateMerkleTreeData = async (
       BigInt(
         (BigInt(CreatorWithdrawData.yield) * BigInt(gifterPercentage)) /
           BigInt(100)
-      ) * BigInt(0.7);
+      ) * BigInt(70) / BigInt(100);
     const creatorMerkleIndex: number = MerkleDatas.findIndex(
       (w: MerkleData) => w.address === d.creator
     );
