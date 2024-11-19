@@ -14,6 +14,9 @@ const batchWithdraw = async (): Promise<boolean> => {
 
     const batchWithdrawAmount = await SmartContract.batchWithdrawAmount();
     const batchWithdrawMin = await SmartContract.batchWithdrawMin();
+    console.log(`WITHDRAW: Batch withdraw amount: ${batchWithdrawAmount}`);
+    console.log(`WITHDRAW: Batch withdraw min: ${batchWithdrawMin}`);
+    return false;
     if( batchWithdrawAmount < batchWithdrawMin ) {
         console.log(`WITHDRAW: Batch withdraw amount is less than the minimum batch withdraw amount`);
         return false;

@@ -27,16 +27,26 @@ const unstakeWithdraw = async () => {
     console.log(`UNSTAKE: No funds to withdraw`);
     return false;
   }
+
   console.log(`UNSTAKE: Initiating batch withdraw`);
   const withdrawAmount = await DonateSC.batchWithdrawAmount();
+
+  console.log(`UNSTAKE: Generate Mekrle Tree Data`)
   const merkleTreeData = await generateMerkleTreeData(
     String(cooldownStatus[1]),
     withdrawAmount
   );
+  console.log(`UNSTAKE: Combine MerkleTree with Last Bacth Data`)
   const updatedData = await combineMerkleTreeDataWithRedis(merkleTreeData);
+
+  console.log(`UNSTAKE: Generate Merkle Tree`)
   const rootHash = await generateMerkleTree(updatedData);
+
+  console.log(`UNSTAKE: Update Merkle Root in SmartContract`)
   await DonateSC.setMerkleRoot(rootHash);
-  await DonateSC.batchWithdraw();
+  
+  console.log(`UNSTAKE: Unstake sUSDe to USDe into SmartContract`)
+  await DonateSC.unstakeBatchWithdraw();
 };
 
 /**
@@ -45,10 +55,10 @@ const unstakeWithdraw = async () => {
  */
 const getInitiedWithdrawData = async (): Promise<Withdraw[]> => {
   const SmartContract = await getDonateContract();
-  const lastBatchWithdraw = await SmartContract.lastBatchWithdraw();
-  console.log(`Last Batch Withdraw: ${lastBatchWithdraw}`);
-  const WithdrawData: Withdraw[] = (
-    await getWithdrawDataAfter(BigInt(lastBatchWithdraw))
+  // const lastBatchWithdraw = await SmartContract.lastBatchWithdraw();
+  const lastBatchWithdraw = "0";
+  const WithdrawData: Withdraw[] = await getWithdrawDataAfter(
+    BigInt(lastBatchWithdraw)
   );
   if (WithdrawData.length < 1) return [];
   return WithdrawData;
@@ -60,11 +70,12 @@ const getInitiedWithdrawData = async (): Promise<Withdraw[]> => {
  */
 const getDonationData = async (): Promise<Donations[]> => {
   const SmartContract = await getDonateContract();
-  const lastBatchWithdraw = await SmartContract.lastBatchWithdraw();
-  const DonationData: Donations[] = (
-    await getDonationDataAfter(BigInt(lastBatchWithdraw))
+  // const lastBatchWithdraw = await SmartContract.lastBatchWithdraw();
+  const lastBatchWithdraw = "0";
+  const DonationData: Donations[] = await getDonationDataAfter(
+    BigInt(lastBatchWithdraw)
   );
-  if (DonationData.length < 1 ) return [];
+  if (DonationData.length < 1) return [];
   return removeDuplicateDonationsData(DonationData);
 };
 
@@ -104,20 +115,24 @@ const generateMerkleTreeData = async (
 ): Promise<MerkleData[]> => {
   const totalSharesInt = BigInt(totalShares);
   const totalAmountInt = BigInt(totalAmount);
+  const totalYield = totalAmountInt - totalSharesInt;
+  const totalAmountWithouYield = totalAmountInt - totalYield;
   const WithdrawData: Withdraw[] = await getInitiedWithdrawData();
   const DonationData: Donations[] = await getDonationData();
   const MerkleDatas: MerkleData[] = [
     ...WithdrawData.map((w: Withdraw) => {
-      const creatorPercentage: bigint =
-        (BigInt(w.shares) / totalAmountInt) * BigInt(100);
-      const creatorAmount: BigInt = BigInt(
-        (BigInt(totalSharesInt) * BigInt(creatorPercentage)) / BigInt(100)
+      const creatorPercentage =
+        (BigInt(w.shares) * BigInt(100e18)) / totalSharesInt;
+      const creatorAmount = BigInt(
+        (BigInt(totalAmountWithouYield) * creatorPercentage) / BigInt(100e18)
       );
+      const creatorYield =
+        BigInt(BigInt(totalYield) * creatorPercentage) / BigInt(100e18);
       return {
         address: w.creator,
         shares: w.shares,
-        amount: creatorAmount.toString(),
-        yield: (totalAmountInt - totalSharesInt).toString(),
+        amount: (BigInt(creatorAmount) + BigInt(creatorYield)).toString(),
+        yield: creatorYield.toString(),
         proof: [``],
       };
     }),
@@ -129,19 +144,24 @@ const generateMerkleTreeData = async (
     );
     if (!CreatorWithdrawData) return;
     const gifterPercentage =
-      (BigInt(d.gifterShares) / BigInt(CreatorWithdrawData.shares)) *
-      BigInt(100);
-    const gifterAmount =
-      BigInt(
-        (BigInt(CreatorWithdrawData.yield) * BigInt(gifterPercentage)) /
-          BigInt(100)
-      ) * BigInt(70) / BigInt(100);
+      (BigInt(d.gifterShares) * BigInt(100e18)) /
+      BigInt(CreatorWithdrawData.shares);
+
+    const gifterAmount = BigInt(
+      (BigInt(CreatorWithdrawData.yield) * BigInt(gifterPercentage)) /
+        BigInt(100e18)
+    );
+
     const creatorMerkleIndex: number = MerkleDatas.findIndex(
       (w: MerkleData) => w.address === d.creator
     );
     MerkleDatas[creatorMerkleIndex].amount = (
       BigInt(MerkleDatas[creatorMerkleIndex].amount) - gifterAmount
     ).toString();
+    MerkleDatas[creatorMerkleIndex].yield = (
+      BigInt(MerkleDatas[creatorMerkleIndex].yield) - gifterAmount
+    ).toString();
+
     MerkleDatas.push({
       address: d.gifter,
       shares: d.gifterShares,
@@ -168,11 +188,18 @@ const combineMerkleTreeDataWithRedis = async (
     const userData = JSON.parse((await redis.getData(element.address)) ?? `{}`);
     if (!userData?.amount) continue;
     // not handle if user data is not found
-    const onChainGifterData = await SmartContract.getGifterData(
-      element.address
-    );
+    const onChainGifterData = await SmartContract.gifters(element.address);
+
     if (
-      BigInt(onChainGifterData.lastClaimed) <
+      onChainGifterData[0] === BigInt(0) &&
+      onChainGifterData[1] === BigInt(0) &&
+      onChainGifterData[2] === BigInt(0) &&
+      onChainGifterData[3] === BigInt(0)
+    )
+      continue;
+
+    if (
+      BigInt(onChainGifterData[3]) <
       BigInt(await SmartContract.lastBatchWithdraw())
     )
       continue;

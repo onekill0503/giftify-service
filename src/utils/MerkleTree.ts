@@ -4,8 +4,8 @@ import { solidityPackedKeccak256 } from "ethers";
 
 const createMerkleTree = (claims: { address: string; amount: string }[]) => {
   const data: { leaf: string; address: string; amount: string }[] = [];
-
   const leaves = claims.map((claim) => {
+    console.log(claim.address, claim.amount);
     const leaf = solidityPackedKeccak256(
       ["address", "uint256"],
       [claim.address, claim.amount]
