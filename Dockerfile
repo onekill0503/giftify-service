@@ -4,17 +4,14 @@ FROM oven/bun:latest
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the lock and package file
-COPY bun.lockb .
+# Copy your source code
+COPY . ./
 
 # Install dependencies
 RUN bun install --frozen-lockfile
-
-# Copy your source code
-COPY . ./
 
 # Expose port 3000
 EXPOSE 3000
 
 # Run the application
-CMD ["bun", "index.ts"]
+CMD ["bun", "src/index.ts"]
