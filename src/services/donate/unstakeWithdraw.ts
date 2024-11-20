@@ -20,32 +20,32 @@ const unstakeWithdraw = async () => {
     process.env.DONATE_CONTRACT_ADDRESS ?? `0x0`
   );
   if (cooldownStatus[0] > BigInt(new Date().getTime())) {
-    console.log(`UNSTAKE: Cooldown is not finished yet`);
+    console.log(`[${new Date()}] UNSTAKE: Cooldown is not finished yet`);
     return false;
   }
   if (cooldownStatus[1] === BigInt(0)) {
-    console.log(`UNSTAKE: No funds to withdraw`);
+    console.log(`[${new Date()}] UNSTAKE: No funds to withdraw`);
     return false;
   }
 
-  console.log(`UNSTAKE: Initiating batch withdraw`);
+  console.log(`[${new Date()}] UNSTAKE: Initiating batch withdraw`);
   const withdrawAmount = await DonateSC.batchWithdrawAmount();
 
-  console.log(`UNSTAKE: Generate Mekrle Tree Data`)
+  console.log(`[${new Date()}] UNSTAKE: Generate Mekrle Tree Data`)
   const merkleTreeData = await generateMerkleTreeData(
     String(cooldownStatus[1]),
     withdrawAmount
   );
-  console.log(`UNSTAKE: Combine MerkleTree with Last Bacth Data`)
+  console.log(`[${new Date()}] UNSTAKE: Combine MerkleTree with Last Bacth Data`)
   const updatedData = await combineMerkleTreeDataWithRedis(merkleTreeData);
 
-  console.log(`UNSTAKE: Generate Merkle Tree`)
+  console.log(`[${new Date()}] UNSTAKE: Generate Merkle Tree`)
   const rootHash = await generateMerkleTree(updatedData);
 
-  console.log(`UNSTAKE: Update Merkle Root in SmartContract`)
+  console.log(`[${new Date()}] UNSTAKE: Update Merkle Root in SmartContract`)
   await DonateSC.setMerkleRoot(rootHash);
   
-  console.log(`UNSTAKE: Unstake sUSDe to USDe into SmartContract`)
+  console.log(`[${new Date()}] UNSTAKE: Unstake sUSDe to USDe into SmartContract`)
   await DonateSC.unstakeBatchWithdraw();
 };
 
@@ -55,8 +55,7 @@ const unstakeWithdraw = async () => {
  */
 const getInitiedWithdrawData = async (): Promise<Withdraw[]> => {
   const SmartContract = await getDonateContract();
-  // const lastBatchWithdraw = await SmartContract.lastBatchWithdraw();
-  const lastBatchWithdraw = "0";
+  const lastBatchWithdraw = await SmartContract.lastBatchWithdraw();
   const WithdrawData: Withdraw[] = await getWithdrawDataAfter(
     BigInt(lastBatchWithdraw)
   );
@@ -70,8 +69,7 @@ const getInitiedWithdrawData = async (): Promise<Withdraw[]> => {
  */
 const getDonationData = async (): Promise<Donations[]> => {
   const SmartContract = await getDonateContract();
-  // const lastBatchWithdraw = await SmartContract.lastBatchWithdraw();
-  const lastBatchWithdraw = "0";
+  const lastBatchWithdraw = await SmartContract.lastBatchWithdraw();
   const DonationData: Donations[] = await getDonationDataAfter(
     BigInt(lastBatchWithdraw)
   );

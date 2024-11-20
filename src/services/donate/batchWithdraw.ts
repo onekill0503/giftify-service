@@ -8,22 +8,21 @@ const batchWithdraw = async (): Promise<boolean> => {
     const SmartContract = await getDonateContract();
     const withdrawStatus = await SmartContract.withdrawStatus();
     if(withdrawStatus) {
-        console.log(`WITHDRAW: Batch withdraw is already in progress`)
+        console.log(`[${new Date()}] WITHDRAW: Batch withdraw is already in progress`)
         return false;
     };
 
     const batchWithdrawAmount = await SmartContract.batchWithdrawAmount();
     const batchWithdrawMin = await SmartContract.batchWithdrawMin();
-    console.log(`WITHDRAW: Batch withdraw amount: ${batchWithdrawAmount}`);
-    console.log(`WITHDRAW: Batch withdraw min: ${batchWithdrawMin}`);
-    return false;
+    console.log(`[${new Date()}] WITHDRAW: Batch withdraw amount: ${batchWithdrawAmount}`);
+    console.log(`[${new Date()}] WITHDRAW: Batch withdraw min: ${batchWithdrawMin}`);
     if( batchWithdrawAmount < batchWithdrawMin ) {
-        console.log(`WITHDRAW: Batch withdraw amount is less than the minimum batch withdraw amount`);
+        console.log(`[${new Date()}] WITHDRAW: Batch withdraw amount is less than the minimum batch withdraw amount`);
         return false;
     }
     const executeWithdraw = await SmartContract.batchWithdraw();
     const hash = await executeWithdraw.wait();
-    console.log(`WITHDRAW: Batch withdraw executed with hash: ${hash.transactionHash}`);
+    console.log(`[${new Date()}] WITHDRAW: Batch withdraw executed with hash: ${hash.transactionHash}`);
     return true;
 };
 
