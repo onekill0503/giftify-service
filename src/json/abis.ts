@@ -67,13 +67,29 @@ export const DONATE_CONTRACT_ABI = [
   },
   {
     "type": "function",
-    "name": "batchWithdrawAmount",
-    "inputs": [],
-    "outputs": [
+    "name": "batchWithdrawAmounts",
+    "inputs": [
       {
         "name": "",
         "type": "uint256",
         "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "batchAmount",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "lastBatchWithdraw",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "onGoing",
+        "type": "bool",
+        "internalType": "bool"
       }
     ],
     "stateMutability": "view"
@@ -166,6 +182,19 @@ export const DONATE_CONTRACT_ABI = [
   },
   {
     "type": "function",
+    "name": "currentBatch",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
     "name": "donate",
     "inputs": [
       {
@@ -181,6 +210,32 @@ export const DONATE_CONTRACT_ABI = [
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "getBatchWithdrawAmount",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getLastBatchWithdraw",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -260,19 +315,6 @@ export const DONATE_CONTRACT_ABI = [
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "lastBatchWithdraw",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
   },
   {
     "type": "function",

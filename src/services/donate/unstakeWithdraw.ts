@@ -29,7 +29,11 @@ const unstakeWithdraw = async () => {
   }
 
   console.log(`[${new Date()}] UNSTAKE: Initiating batch withdraw`);
-  const withdrawAmount = await DonateSC.batchWithdrawAmount();
+  const withdrawAmount = await DonateSC.getBatchWithdrawAmount();
+  if(withdrawAmount <= BigInt(0)) {
+    console.log(`[${new Date()}] UNSTAKE: No funds to withdraw`);
+    return false;
+  }
 
   console.log(`[${new Date()}] UNSTAKE: Generate Mekrle Tree Data`)
   const merkleTreeData = await generateMerkleTreeData(
@@ -55,7 +59,7 @@ const unstakeWithdraw = async () => {
  */
 const getInitiedWithdrawData = async (): Promise<Withdraw[]> => {
   const SmartContract = await getDonateContract();
-  const lastBatchWithdraw = await SmartContract.lastBatchWithdraw();
+  const lastBatchWithdraw = await SmartContract.getLastBatchWithdraw();
   const WithdrawData: Withdraw[] = await getWithdrawDataAfter(
     BigInt(lastBatchWithdraw)
   );
@@ -69,7 +73,7 @@ const getInitiedWithdrawData = async (): Promise<Withdraw[]> => {
  */
 const getDonationData = async (): Promise<Donations[]> => {
   const SmartContract = await getDonateContract();
-  const lastBatchWithdraw = await SmartContract.lastBatchWithdraw();
+  const lastBatchWithdraw = await SmartContract.getLastBatchWithdraw();
   const DonationData: Donations[] = await getDonationDataAfter(
     BigInt(lastBatchWithdraw)
   );
@@ -198,7 +202,7 @@ const combineMerkleTreeDataWithRedis = async (
 
     if (
       BigInt(onChainGifterData[3]) <
-      BigInt(await SmartContract.lastBatchWithdraw())
+      BigInt(await SmartContract.getLastBatchWithdraw())
     )
       continue;
     element.amount = (
