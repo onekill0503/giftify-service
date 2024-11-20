@@ -6,7 +6,8 @@ import { getDonateContract } from "../../utils/blockchain";
  */
 const batchWithdraw = async (): Promise<boolean> => {
     const SmartContract = await getDonateContract();
-    const withdrawStatus = await SmartContract.withdrawStatus();
+    const currentBatch = await SmartContract.currentBatch();
+    const withdrawStatus = (await SmartContract.batchWithdrawAmounts(currentBatch))[2];
     if(withdrawStatus) {
         console.log(`[${new Date()}] WITHDRAW: Batch withdraw is already in progress`)
         return false;
@@ -20,6 +21,7 @@ const batchWithdraw = async (): Promise<boolean> => {
         console.log(`[${new Date()}] WITHDRAW: Batch withdraw amount is less than the minimum batch withdraw amount`);
         return false;
     }
+    console.log(`[${new Date()}] WITHDRAW: Executing batch withdraw`);
     const executeWithdraw = await SmartContract.batchWithdraw();
     const hash = await executeWithdraw.wait();
     console.log(`[${new Date()}] WITHDRAW: Batch withdraw executed with hash: ${hash.transactionHash}`);

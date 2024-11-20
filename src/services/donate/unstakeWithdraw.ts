@@ -47,10 +47,12 @@ const unstakeWithdraw = async () => {
   const rootHash = await generateMerkleTree(updatedData);
 
   console.log(`[${new Date()}] UNSTAKE: Update Merkle Root in SmartContract`)
-  await DonateSC.setMerkleRoot(rootHash);
+  const setMerkleTX = await DonateSC.setMerkleRoot(rootHash);
+  await setMerkleTX.wait();
   
   console.log(`[${new Date()}] UNSTAKE: Unstake sUSDe to USDe into SmartContract`)
-  await DonateSC.unstakeBatchWithdraw();
+  const unstakeBatchTX = await DonateSC.unstakeBatchWithdraw();
+  await unstakeBatchTX.wait();
 };
 
 /**

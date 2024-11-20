@@ -7,7 +7,7 @@ import unstakeWithdraw from "../services/donate/unstakeWithdraw";
  */
 export default cron({
   name: `Giftify Withdraw Batch Execution`,
-  pattern: Patterns.everyMinutes(10),
+  pattern: Patterns.everyHours(1),
   run: async () => {
     await batchWithdraw();
     await unstakeWithdraw();
