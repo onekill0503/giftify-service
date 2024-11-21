@@ -1,7 +1,7 @@
 import Donations from "../../schema/types/Donations";
 import MerkleData from "../../schema/types/MerkleData";
 import Withdraw from "../../schema/types/Withdraw";
-import { getDonateContract, getSUSDContract } from "../../utils/blockchain";
+import { getDonateContract, getLatestBlock, getSUSDContract } from "../../utils/blockchain";
 import {
   getDonationDataAfter,
   getWithdrawDataAfter,
@@ -16,10 +16,11 @@ import { createMerkleTree } from "../../utils/MerkleTree";
 const unstakeWithdraw = async () => {
   const SmartContract = await getSUSDContract();
   const DonateSC = await getDonateContract();
+  const lastestBlockTimestamp = (await getLatestBlock())?.timestamp ?? 0
   const cooldownStatus = await SmartContract.cooldowns(
     process.env.DONATE_CONTRACT_ADDRESS ?? `0x0`
   );
-  if (cooldownStatus[0] > BigInt(new Date().getTime())) {
+  if (cooldownStatus[0] > BigInt(lastestBlockTimestamp)) {
     console.log(`[${new Date()}] UNSTAKE: Cooldown is not finished yet`);
     return false;
   }

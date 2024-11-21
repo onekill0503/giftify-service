@@ -1,4 +1,4 @@
-import { Contract, JsonRpcProvider, Wallet } from "ethers";
+import { Block, Contract, JsonRpcProvider, Wallet } from "ethers";
 import { DONATE_CONTRACT_ABI, SUSDE_CONTRACT_ABI } from "../json/abis";
 
 export const getOwnerWallet = async (): Promise<Wallet> => {
@@ -24,3 +24,8 @@ export const getSUSDContract = async (): Promise<Contract> => {
     await getOwnerWallet()
   );
 };
+
+export const getLatestBlock = async (): Promise<Block | null> => {
+  const Provider = await getProvider();
+  return await Provider.getBlock('latest');
+}

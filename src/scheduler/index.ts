@@ -9,7 +9,11 @@ export default cron({
   name: `Giftify Withdraw Batch Execution`,
   pattern: Patterns.everyHours(1),
   run: async () => {
-    await batchWithdraw();
-    await unstakeWithdraw();
+    try {
+      await batchWithdraw();
+      await unstakeWithdraw();
+    }catch(error: any) {
+      console.error(`[${new Date()}] ERROR: ${error.message}`);
+    }
   },
 });
