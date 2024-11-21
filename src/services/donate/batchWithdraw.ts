@@ -23,8 +23,9 @@ const batchWithdraw = async (): Promise<boolean> => {
     }
     console.log(`[${new Date()}] WITHDRAW: Executing batch withdraw`);
     const executeWithdraw = await SmartContract.batchWithdraw();
-    const hash = await executeWithdraw.wait();
-    console.log(`[${new Date()}] WITHDRAW: Batch withdraw executed with hash: ${hash.transactionHash}`);
+    const WithdrawTX = await executeWithdraw.wait();
+    console.log(`[${new Date()}] WITHDRAW: Batch withdraw executed with hash: ${WithdrawTX?.hash ?? '0x'}`);
+    console.log(`==================== END BATCH WITHDRAW ====================`);
     return true;
 };
 
