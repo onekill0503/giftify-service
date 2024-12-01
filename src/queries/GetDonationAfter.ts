@@ -2,13 +2,13 @@ import { gql } from "graphql-request";
 
 const GET_DONATION_AFTER = gql`
   query GetDonationsAfter($timestamp: BigInt!) {
-    newDonations(where: { timestamp_gte: $timestamp }) {
+    newDonations(where: { timestamp__gte: $timestamp }) {
       gifter
       grossAmount
       netAmount
       creator
       gifterShares
-      timestamp
+      timestamp_
     }
   }
 `;

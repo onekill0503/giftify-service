@@ -8,7 +8,7 @@ const GET_ALL_DONATION = gql`
       netAmount
       creator
       gifterShares
-      timestamp
+      timestamp_
     }
   }
 `;

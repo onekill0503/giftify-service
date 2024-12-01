@@ -4,5 +4,5 @@ export default interface Donations {
   netAmount: string;
   creator: string;
   gifterShares: string;
-  timestamp: string;
+  timestamp_: string;
 }
